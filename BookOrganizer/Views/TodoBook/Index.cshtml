@@ -1,7 +1,109 @@
-﻿@{
-    ViewData["Title"] = "Organizador de Livros";
+﻿@model IEnumerable<BookOrganizer.Models.Book>
+
+@{
+    ViewData["Title"] = "Index";
+    
 }
 
-<h2>@ViewData["Title"]</h2>
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-outline-primary" >Create New</a>
+</p>
 
 
+@if (!Model.Any())
+{
+    <div class="alert alert-info" role="alert">
+        No books found. Please add a new book.
+    </div>
+
+} 
+
+<div class="row">
+        @foreach (var item in Model)
+        {
+             <div class="col-sm-6 mb-3 mb-sm-0">
+                <div class="card" style="width: 18rem;">
+                        <div class="card-body">
+                        <span>@Html.DisplayFor(modelItem => item.RegisterDate)</span>
+                            <h5 class="card-title">@Html.DisplayFor(modelItem => item.Title)</h5>
+                            <p class="card-text">@Html.DisplayFor(modelItem => item.description)</p>
+                            <p class="card-text">@Html.DisplayFor(modelItem => item.Genre)</p>
+
+                            <div class="progress" role="progressbar" aria-label="Success example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                                <div class="progress-bar text-bg-success" style="width: @item.GetPercentageCompleted()%">
+                                    @item.GetPercentageCompleted()%
+                                </div>
+                            </div>
+
+                            <div class="row">
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-primary btn-sm">Edit</a>
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-primary btn-sm">Details</a>
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-primary btn-sm">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+    </div>
+
+
+
+
+
+@* <table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RegisterDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Genre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.actualPage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalPages)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RegisterDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Genre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.actualPage)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalPages)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table> *@

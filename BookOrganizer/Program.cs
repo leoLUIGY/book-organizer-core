@@ -1,4 +1,9 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using BookOrganizer.Data;
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<BookOrganizerContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("BookOrganizerContext") ?? throw new InvalidOperationException("Connection string 'BookOrganizerContext' not found.")));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
