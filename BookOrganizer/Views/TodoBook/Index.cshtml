@@ -18,7 +18,16 @@
         No books found. Please add a new book.
     </div>
 
-} 
+}
+else
+{
+    <form asp-controller="TodoBook" asp-action="Index" method="get">
+        <p>
+            <label>Title: <input type="text" name="SearchString" /> </label>
+            <input type="submit" value="Filter" />
+        </p>
+    </form>
+}
 
 <div class="row">
         @foreach (var item in Model)
@@ -38,9 +47,11 @@
                             </div>
 
                             <div class="row">
-                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-primary btn-sm">Edit</a>
-                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-primary btn-sm">Details</a>
-                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-primary btn-sm">Delete</a>
+
+                                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+               
                             </div>
                         </div>
                     </div>
