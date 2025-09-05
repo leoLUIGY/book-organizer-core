@@ -14,9 +14,22 @@ namespace BookOrganizer.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Index()
+
+        public async Task<IActionResult> Index(string searchString)
         {
-            return View(await _context.Book.ToListAsync());
+            if (_context.Book == null)
+            {
+                return Problem("Entity set 'MvcMovieContext.Movie' is null");
+            }
+
+            var books = from m in _context.Book select m;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                books = books.Where(s => s.Title!.ToUpper().Contains(searchString.ToUpper()));
+            }
+
+            return View(await books.ToListAsync());
         }
 
         public async Task<IActionResult> Details(int? id)
@@ -42,10 +55,11 @@ namespace BookOrganizer.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,description,RegisterDate,Genre,actualPage,TotalPages")] Book book)
+        public async Task<IActionResult> Create([Bind("Id,Title,description,Genre,actualPage,TotalPages")] Book book)
         {
             if (ModelState.IsValid)
             {
+                book.RegisterDate = DateTime.Now;
                 _context.Add(book);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -71,7 +85,7 @@ namespace BookOrganizer.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,description,RegisterDate,Genre,actualPage,TotalPages")] Book book)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,description,Genre,actualPage,TotalPages")] Book book)
         {
             if (id != book.Id)
             {
@@ -81,6 +95,7 @@ namespace BookOrganizer.Controllers
             {
                 try
                 {
+                    book.RegisterDate = DateTime.Now;
                     _context.Update(book);
                     await _context.SaveChangesAsync();
                 }

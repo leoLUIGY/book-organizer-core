@@ -1,13 +1,24 @@
-﻿namespace BookOrganizer.Models
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace BookOrganizer.Models
 {
     public class Book
     {
         public int Id { get; set; }
         public string Title { get; set; } = string.Empty;
         public string? description { get; set; } = string.Empty;
+
+        [Display(Name = "Release Date")]
+        [DataType(DataType.Date)]
         public DateTime RegisterDate { get; set; }
-        public string Genre { get; set; } = string.Empty;   
+        public string Genre { get; set; } = string.Empty;
+
+        [Display(Name = "Actual Page")]
         public int actualPage { get; set; }
+
+        [Display(Name = "Total Pages")]
         public int TotalPages { get; set; }
 
 
