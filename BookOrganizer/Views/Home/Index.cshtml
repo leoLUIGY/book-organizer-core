@@ -1,11 +1,19 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Bem-vindo";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <div>
-        <a asp-action="Create" asp-controller="TodoBook" class="btn btn-outline-primary">Criar</a>
-        <a asp-action="Index" asp-controller="TodoBook" class="btn btn-outline-primary">Visualizar</a>
+<div class="d-flex justify-content-center align-items-center vh-100">
+    <div class="text-center">
+        <h1 class="mb-4">Bem-vindo ao Book Organizer</h1>
+        <p class="mb-5">Escolha uma opção para continuar:</p>
+
+        <div class="d-flex gap-3 justify-content-center">
+            <a asp-controller="Account" asp-action="Login" class="btn btn-primary btn-lg px-5">
+                Login
+            </a>
+            <a asp-controller="Account" asp-action="Register" class="btn btn-success btn-lg px-5">
+                Cadastro
+            </a>
+        </div>
     </div>
 </div>

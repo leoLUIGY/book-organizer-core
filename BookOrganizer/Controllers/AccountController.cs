@@ -1,0 +1,73 @@
+﻿using BookOrganizer.Models;
+using Microsoft.AspNetCore.Mvc;
+
+namespace BookOrganizer.Controllers
+{
+    public class AccountController : Controller
+    {
+        private readonly HttpClient _httpClient;
+
+        public AccountController(IHttpClientFactory httpClientFactory)
+        {
+            _httpClient = httpClientFactory.CreateClient("BookOrginizerApi");
+        }
+
+        [HttpGet]
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginViewModel model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            var response = await _httpClient.PostAsJsonAsync("/login", model);
+
+            if (response.IsSuccessStatusCode)
+            { // 🔹 Aqui você pode redirecionar para outra área da aplicação
+                return RedirectToAction("Index", "TodoBook");
+            }
+
+            var error = await response.Content.ReadAsStringAsync();
+            ModelState.AddModelError("", "Falha no login: " + error);
+
+            return View(model);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> Register(RegisterViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var response = await _httpClient.PostAsJsonAsync("/register", model);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Success");
+            }
+
+            var errors = await response.Content.ReadFromJsonAsync<object>();
+            ModelState.AddModelError("", "Erro ao registrar usuario: " + errors);
+
+            return View(model);
+        }
+
+        public IActionResult Success()
+        {
+            return RedirectToAction("Index","TodoBook");
+        }
+    }
+}

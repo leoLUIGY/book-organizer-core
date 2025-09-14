@@ -7,6 +7,8 @@ namespace BookOrganizer.Models
     public class Book
     {
         public int Id { get; set; }
+        [StringLength(60, MinimumLength = 4)]
+        [Required]
         public string Title { get; set; } = string.Empty;
         public string? description { get; set; } = string.Empty;
 

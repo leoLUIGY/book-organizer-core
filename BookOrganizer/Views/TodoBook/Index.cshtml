@@ -1,4 +1,5 @@
-﻿@model IEnumerable<BookOrganizer.Models.Book>
+﻿@* @model IEnumerable<BookOrganizer.Models.Book> * *@
+@model BookOrganizer.Models.BookGenreViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -12,7 +13,7 @@
 </p>
 
 
-@if (!Model.Any())
+@if (!Model.Books.Any())
 {
     <div class="alert alert-info" role="alert">
         No books found. Please add a new book.
@@ -23,18 +24,23 @@ else
 {
     <form asp-controller="TodoBook" asp-action="Index" method="get">
         <p>
+            <select asp-for="BookGenre" asp-items="Model.Genres">
+                <option value="">All</option>
+            </select>
+
             <label>Title: <input type="text" name="SearchString" /> </label>
             <input type="submit" value="Filter" />
         </p>
     </form>
 }
 
-<div class="row">
-        @foreach (var item in Model)
+<div class="d-flex flex-wrap justify-content-center">
+
+        @foreach (var item in Model.Books)
         {
-             <div class="col-sm-6 mb-3 mb-sm-0">
-                <div class="card" style="width: 18rem;">
-                        <div class="card-body">
+             <div class="col-sm-3 mb-3 mb-sm-0">
+                <div class="card" style="width: 18rem; height: 16rem;">
+                        <div class="card-body d-flex flex-column justify-content-between">
                         <span>@Html.DisplayFor(modelItem => item.RegisterDate)</span>
                             <h5 class="card-title">@Html.DisplayFor(modelItem => item.Title)</h5>
                             <p class="card-text">@Html.DisplayFor(modelItem => item.description)</p>
@@ -46,10 +52,10 @@ else
                                 </div>
                             </div>
 
-                            <div class="row">
+                            <div class="d-flex justify-content-around">
 
-                                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> 
+                                <a asp-action="Details" asp-route-id="@item.Id">Details</a>
                                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                
                             </div>

@@ -15,21 +15,36 @@ namespace BookOrganizer.Controllers
         }
 
 
-        public async Task<IActionResult> Index(string searchString)
+        public async Task<IActionResult> Index(string bookGenre ,string searchString)
         {
             if (_context.Book == null)
             {
                 return Problem("Entity set 'MvcMovieContext.Movie' is null");
             }
 
+            IQueryable<string> genreQuery = from m in _context.Book
+                                            orderby m.Genre
+                                            select m.Genre;
+
             var books = from m in _context.Book select m;
 
-            if (!String.IsNullOrEmpty(searchString))
+            if (!string.IsNullOrEmpty(searchString))
             {
                 books = books.Where(s => s.Title!.ToUpper().Contains(searchString.ToUpper()));
             }
 
-            return View(await books.ToListAsync());
+            if (!string.IsNullOrEmpty(bookGenre))
+            {
+                books = books.Where(x => x.Genre == bookGenre);
+            }
+
+            var bookGenreVM = new BookGenreViewModel
+            {
+                Genres = new Microsoft.AspNetCore.Mvc.Rendering.SelectList(await genreQuery.Distinct().ToListAsync()),
+                Books = await books.ToListAsync()
+            };
+
+            return View(bookGenreVM);
         }
 
         public async Task<IActionResult> Details(int? id)
