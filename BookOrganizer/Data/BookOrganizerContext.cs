@@ -32,6 +32,8 @@ namespace BookOrganizer.Data
 
         }
         public DbSet<BookOrganizer.Models.Book> Book { get; set; } = default!;
+      
+
 
     }
 }
