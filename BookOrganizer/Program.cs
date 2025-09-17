@@ -20,6 +20,10 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 })
 .AddEntityFrameworkStores<BookOrganizerContext>()
 .AddDefaultTokenProviders();
+
+builder.Services.AddAuthorization();
+builder.Services.AddControllersWithViews();
+
 builder.Services.AddHttpClient("BookOrganizerApi", client =>
 {
     client.BaseAddress = new Uri("https://localhost:7039");

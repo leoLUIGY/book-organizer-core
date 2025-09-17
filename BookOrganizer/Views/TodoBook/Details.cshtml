@@ -1,54 +1,45 @@
 ﻿@model BookOrganizer.Models.Book
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Book Details";
 }
 
-<h1>Details</h1>
+<div class="container py-4">
+    <div class="mb-4">
+        <h1 class="fw-bold">@ViewData["Title"]</h1>
+        <p class="text-muted">Here are the details of the selected book.</p>
+    </div>
 
-<div>
-    <h4>Book</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.description)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.description)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.RegisterDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.RegisterDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Genre)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Genre)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.actualPage)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.actualPage)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TotalPages)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TotalPages)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-outline-primary">Edit</a> |
-    <a asp-action="Index" class="btn btn-outline-primary">Back to List</a>
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm border-0 rounded-3">
+                <div class="card-body">
+                    <h4 class="card-title fw-bold mb-3">@Model.Title</h4>
+                    <dl class="row">
+                        <dt class="col-sm-4 text-muted">@Html.DisplayNameFor(m => m.description)</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(m => m.description)</dd>
+
+                        <dt class="col-sm-4 text-muted">@Html.DisplayNameFor(m => m.RegisterDate)</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(m => m.RegisterDate)</dd>
+
+                        <dt class="col-sm-4 text-muted">@Html.DisplayNameFor(m => m.Genre)</dt>
+                        <dd class="col-sm-8">
+                            <span class="badge bg-secondary">@Html.DisplayFor(m => m.Genre)</span>
+                        </dd>
+
+                        <dt class="col-sm-4 text-muted">@Html.DisplayNameFor(m => m.actualPage)</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(m => m.actualPage)</dd>
+
+                        <dt class="col-sm-4 text-muted">@Html.DisplayNameFor(m => m.TotalPages)</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(m => m.TotalPages)</dd>
+                    </dl>
+                </div>
+
+                <div class="card-footer bg-light d-flex justify-content-between">
+                    <a asp-action="Index" class="btn btn-outline-secondary shadow-sm">← Back to List</a>
+                    <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary shadow-sm">✏️ Edit</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

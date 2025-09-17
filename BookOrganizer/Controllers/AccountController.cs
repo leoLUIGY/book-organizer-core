@@ -59,10 +59,10 @@ namespace BookOrganizer.Controllers
             if (response.IsSuccessStatusCode)
             {
                 return RedirectToAction("Success");
-            }
+            } 
 
-           // var errors = await response.Content.ReadFromJsonAsync<object>();
-            ModelState.AddModelError("", "Erro ao registrar usuario " + response.StatusCode);
+                // var errors = await response.Content.ReadFromJsonAsync<object>();
+                ModelState.AddModelError("", "Erro ao registrar usuario " + response.StatusCode);
 
             return View(model);
         }

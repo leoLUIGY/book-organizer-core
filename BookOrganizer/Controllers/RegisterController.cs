@@ -17,6 +17,7 @@ namespace BookOrganizer.Controllers
             _userManager = userManager;
         }
 
+        [HttpPost]
         public async Task<IActionResult> Register([FromBody] RegisterViewModel model)
         {
             if (!ModelState.IsValid)

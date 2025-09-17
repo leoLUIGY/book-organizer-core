@@ -1,22 +1,48 @@
 ﻿@model BookOrganizer.Models.RegisterViewModel
 
-<div class="text-center d-flex justify-content-center align-content-center">
-    <form asp-action="Register" asp-controller="Account" method="post" style="width:30rem;">
-        <div class="form-group">
-            <label for="exampleInputEmail1">Email address</label>
-            <input type="email" class="form-control" asp-for="Email" placeholder="Enter email" required>
-          
-        </div>
-        <div class="form-group">
-            <label for="exampleInputPassword1">Password</label>
-            <input type="password" class="form-control" asp-for="Password" placeholder="Password" required>
-        </div>
-        <div class="form-group form-check">
-            <input type="checkbox" class="form-check-input" asp-for="EnableNotifications" />
-            <label class="form-check-label" asp-for="EnableNotifications">Enable Notifications</label>
+@{
+    ViewData["Title"] = "Register";
+}
+
+<div class="d-flex justify-content-center align-items-center mt-5">
+    <form asp-action="Register" asp-controller="Account" method="post" class="card shadow p-4" style="width: 28rem;">
+        <h3 class="text-center mb-4">Register</h3>
+
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+        <div class="form-group mb-3">
+            <label asp-for="Email" class="form-label"></label>
+            <input asp-for="Email" type="email" class="form-control" placeholder="Enter your email" required />
+            <span asp-validation-for="Email" class="text-danger"></span>
         </div>
 
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <div class="form-group mb-3">
+            <label asp-for="Password" class="form-label"></label>
+            <input asp-for="Password" type="password" class="form-control" placeholder="Enter a password" required />
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+
+        <div class="form-check mb-3">
+            <input asp-for="EnableNotifications" class="form-check-input" />
+            <label asp-for="EnableNotifications" class="form-check-label">Enable Notifications</label>
+        </div>
+
+        <div class="d-grid">
+            <button type="submit" class="btn btn-success">
+                <i class="bi bi-person-plus"></i> Register
+            </button>
+        </div>
+
+        <div class="mt-3 text-center">
+            <a asp-action="Login" asp-controller="Account" class="text-decoration-none">
+                Already have an account? Login
+            </a>
+        </div>
     </form>
-
 </div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
