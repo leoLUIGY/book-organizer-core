@@ -38,8 +38,8 @@ namespace BookOrganizer.Controllers
                 return Ok(new { message = "Usuário registrado com sucesso" });
             }
 
-            // lógica de cadastro
-            return BadRequest(result.Errors);
+                // lógica de cadastro
+                return BadRequest(result.Errors);
         }
     }
 }

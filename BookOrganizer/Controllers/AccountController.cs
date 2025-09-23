@@ -37,8 +37,10 @@ namespace BookOrganizer.Controllers
                 return RedirectToAction("Index", "TodoBook");
             }
 
+            TempData["Error"] = "Email ou senha Invalidos"!;
+
             var error = await response.Content.ReadAsStringAsync();
-            ModelState.AddModelError("", "Falha no login: " + error);
+           // ModelState.AddModelError("", "Email ou senha Invalidos" +);
 
             return View(model);
         }
@@ -59,10 +61,11 @@ namespace BookOrganizer.Controllers
             if (response.IsSuccessStatusCode)
             {
                 return RedirectToAction("Success");
-            } 
+            }
 
-                // var errors = await response.Content.ReadFromJsonAsync<object>();
-                ModelState.AddModelError("", "Erro ao registrar usuario " + response.StatusCode);
+            TempData["Error"] = "Erro ao Registrar usuario!";
+            // var errors = await response.Content.ReadFromJsonAsync<object>();
+           // ModelState.AddModelError("", "Erro ao registrar usuario " + response.StatusCode);
 
             return View(model);
         }

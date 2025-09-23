@@ -26,6 +26,7 @@ namespace BookOrganizer.Features
 
                 if (!result.Succeeded)
                 {
+                    
                     return Results.BadRequest(new { message = "Login invalido" });
 
                 }
