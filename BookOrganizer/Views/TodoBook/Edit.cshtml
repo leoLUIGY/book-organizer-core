@@ -1,66 +1,75 @@
 ﻿@model BookOrganizer.Models.Book
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Edit Book";
 }
 
-<h1>Edit</h1>
+<div class="container py-4">
+    <div class="mb-4">
+        <h1 class="fw-bold">@ViewData["Title"]</h1>
+        <p class="text-muted">Update the book details below and save changes.</p>
+    </div>
 
-<h4>Book</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0 rounded-3">
+                <div class="card-body">
+                    <form asp-action="Edit" class="needs-validation">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+                        <input type="hidden" asp-for="Id" />
+
+                        <div class="mb-3">
+                            <label asp-for="Title" class="form-label fw-semibold"></label>
+                            <input asp-for="Title" class="form-control shadow-sm" placeholder="Enter book title" />
+                            <span asp-validation-for="Title" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="description" class="form-label fw-semibold"></label>
+                            <input asp-for="description" class="form-control shadow-sm" placeholder="Enter description" />
+                            <span asp-validation-for="description" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Genre" class="form-label fw-semibold"></label>
+                            <select asp-for="Genre" class="form-select shadow-sm">
+                                <option value="">Select a genre</option>
+                                <option value="Tecnologia">Tecnologia</option>
+                                <option value="Financeiro">Financeiro</option>
+                                <option value="Ficção">Ficção</option>
+                                <option value="Desenvolvimento">Desenvolvimento</option>
+                                <option value="Historia">História</option>
+                            </select>
+                            <span asp-validation-for="Genre" class="text-danger"></span>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="actualPage" class="form-label fw-semibold"></label>
+                                <input asp-for="actualPage" class="form-control shadow-sm" placeholder="Current page" />
+                                <span asp-validation-for="actualPage" class="text-danger"></span>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="TotalPages" class="form-label fw-semibold"></label>
+                                <input asp-for="TotalPages" class="form-control shadow-sm" placeholder="Total pages" />
+                                <span asp-validation-for="TotalPages" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between mt-4">
+                            <a asp-action="Index" class="btn btn-outline-secondary shadow-sm">← Back to List</a>
+                            <button type="submit" class="btn btn-primary shadow-sm">💾 Save Changes</button>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="description" class="control-label"></label>
-                <input asp-for="description" class="form-control" />
-                <span asp-validation-for="description" class="text-danger"></span>
-            </div>
-          @*   <div class="form-group">
-                <label asp-for="RegisterDate" class="control-label"></label>
-                <input asp-for="RegisterDate" class="form-control" />
-                <span asp-validation-for="RegisterDate" class="text-danger"></span>
-            </div> *@
-            <div class="form-group">
-                <label asp-for="Genre" class="control-label"></label>
-                <select asp-for="Genre" class="form-select form-select-sm" aria-label=".form-select-sm example">
-                    <option selected value="Tecnologia">Tecnologia</option>
-                    <option value="Financeiro">Financeiro</option>
-                    <option value="Ficção">Ficção</option>
-                    <option value="Desenvolvimento">Desenvolvimento</option>
-                    <option value="Historia">Historia</option>
-                </select>
-               @* k <input asp-for="Genre" class="form-control" /> *@
-                <span asp-validation-for="Genre" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="actualPage" class="control-label"></label>
-                <input asp-for="actualPage" class="form-control" />
-                <span asp-validation-for="actualPage" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TotalPages" class="control-label"></label>
-                <input asp-for="TotalPages" class="form-control" />
-                <span asp-validation-for="TotalPages" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index" class="btn btn-outline-primary">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

@@ -9,7 +9,7 @@ namespace BookOrganizer.Controllers
 
         public AccountController(IHttpClientFactory httpClientFactory)
         {
-            _httpClient = httpClientFactory.CreateClient("BookOrginizerApi");
+            _httpClient = httpClientFactory.CreateClient("BookOrganizerApi");
         }
 
         [HttpGet]
@@ -30,15 +30,17 @@ namespace BookOrganizer.Controllers
             if (!ModelState.IsValid)
                 return View(model);
 
-            var response = await _httpClient.PostAsJsonAsync("/login", model);
+            var response = await _httpClient.PostAsJsonAsync("/api/login", model);
 
             if (response.IsSuccessStatusCode)
             { // 🔹 Aqui você pode redirecionar para outra área da aplicação
                 return RedirectToAction("Index", "TodoBook");
             }
 
+            TempData["Error"] = "Email ou senha Invalidos"!;
+
             var error = await response.Content.ReadAsStringAsync();
-            ModelState.AddModelError("", "Falha no login: " + error);
+           // ModelState.AddModelError("", "Email ou senha Invalidos" +);
 
             return View(model);
         }
@@ -52,15 +54,18 @@ namespace BookOrganizer.Controllers
                 return View(model);
             }
 
-            var response = await _httpClient.PostAsJsonAsync("/register", model);
+
+
+            var response = await _httpClient.PostAsJsonAsync("/api/register", model);
 
             if (response.IsSuccessStatusCode)
             {
                 return RedirectToAction("Success");
             }
 
-            var errors = await response.Content.ReadFromJsonAsync<object>();
-            ModelState.AddModelError("", "Erro ao registrar usuario: " + errors);
+            TempData["Error"] = "Erro ao Registrar usuario!";
+            // var errors = await response.Content.ReadFromJsonAsync<object>();
+           // ModelState.AddModelError("", "Erro ao registrar usuario " + response.StatusCode);
 
             return View(model);
         }

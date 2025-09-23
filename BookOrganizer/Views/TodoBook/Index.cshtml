@@ -1,126 +1,69 @@
-﻿@* @model IEnumerable<BookOrganizer.Models.Book> * *@
-@model BookOrganizer.Models.BookGenreViewModel
+﻿@model BookOrganizer.Models.BookGenreViewModel
 
 @{
-    ViewData["Title"] = "Index";
-    
+    ViewData["Title"] = "Books";
 }
 
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create" class="btn btn-outline-primary" >Create New</a>
-</p>
-
-
-@if (!Model.Books.Any())
-{
-    <div class="alert alert-info" role="alert">
-        No books found. Please add a new book.
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="fw-bold">@ViewData["Title"]</h1>
+        <a asp-action="Create" class="btn btn-primary shadow-sm">+ Add Book</a>
     </div>
 
-}
-else
-{
-    <form asp-controller="TodoBook" asp-action="Index" method="get">
-        <p>
-            <select asp-for="BookGenre" asp-items="Model.Genres">
-                <option value="">All</option>
-            </select>
+    @if (!Model.Books.Any())
+    {
+        <div class="alert alert-info text-center shadow-sm" role="alert">
+            No books found. Please add a new one.
+        </div>
+    }
+    else
+    {
+        <form asp-controller="TodoBook" asp-action="Index" method="get" class="row g-3 align-items-end mb-4">
+            <div class="col-md-3">
+                <label asp-for="BookGenre" class="form-label fw-semibold">Genre</label>
+                <select asp-for="BookGenre" asp-items="Model.Genres" class="form-select shadow-sm">
+                    <option value="">All</option>
+                </select>
+            </div>
 
-            <label>Title: <input type="text" name="SearchString" /> </label>
-            <input type="submit" value="Filter" />
-        </p>
-    </form>
-}
+            <div class="col-md-4">
+                <label class="form-label fw-semibold">Title</label>
+                <input type="text" name="SearchString" class="form-control shadow-sm" placeholder="Search by title..." />
+            </div>
 
-<div class="d-flex flex-wrap justify-content-center">
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-outline-primary w-100 shadow-sm">Filter</button>
+            </div>
+        </form>
 
-        @foreach (var item in Model.Books)
-        {
-             <div class="col-sm-3 mb-3 mb-sm-0">
-                <div class="card" style="width: 18rem; height: 16rem;">
-                        <div class="card-body d-flex flex-column justify-content-between">
-                        <span>@Html.DisplayFor(modelItem => item.RegisterDate)</span>
-                            <h5 class="card-title">@Html.DisplayFor(modelItem => item.Title)</h5>
-                            <p class="card-text">@Html.DisplayFor(modelItem => item.description)</p>
-                            <p class="card-text">@Html.DisplayFor(modelItem => item.Genre)</p>
+        <div class="row g-4">
+            @foreach (var item in Model.Books)
+            {
+                <div class="col-sm-6 col-lg-4 col-xl-3">
+                    <div class="card h-100 shadow-sm border-0 rounded-3">
+                        <div class="card-body d-flex flex-column">
+                            <small class="text-muted">@Html.DisplayFor(modelItem => item.RegisterDate)</small>
+                            <h5 class="card-title mt-2 fw-bold">@Html.DisplayFor(modelItem => item.Title)</h5>
+                            <p class="card-text text-truncate">@Html.DisplayFor(modelItem => item.description)</p>
+                            <p class="card-text">
+                                <span class="badge bg-secondary">@Html.DisplayFor(modelItem => item.Genre)</span>
+                            </p>
 
-                            <div class="progress" role="progressbar" aria-label="Success example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                                <div class="progress-bar text-bg-success" style="width: @item.GetPercentageCompleted()%">
+                            <div class="progress mb-3">
+                                <div class="progress-bar bg-success" style="width: @item.GetPercentageCompleted()%">
                                     @item.GetPercentageCompleted()%
                                 </div>
                             </div>
 
-                            <div class="d-flex justify-content-around">
-
-                                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> 
-                                <a asp-action="Details" asp-route-id="@item.Id">Details</a>
-                                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-               
+                            <div class="mt-auto d-flex justify-content-between">
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-warning">Edit</a>
+                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-info">Details</a>
+                                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger">Delete</a>
                             </div>
                         </div>
                     </div>
                 </div>
             }
-    </div>
-
-
-
-
-
-@* <table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RegisterDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Genre)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.actualPage)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TotalPages)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Title)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.description)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.RegisterDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Genre)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.actualPage)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TotalPages)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table> *@
+        </div>
+    }
+</div>

@@ -10,16 +10,26 @@ builder.Services.AddDbContext<BookOrganizerContext>(options =>
 
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+{
+    options.Password.RequireDigit = true;
+    options.Password.RequireLowercase = true;
+    options.Password.RequireUppercase = false;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequiredLength = 6;
+})
+.AddEntityFrameworkStores<BookOrganizerContext>()
+.AddDefaultTokenProviders();
 
-builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
-    .AddEntityFrameworkStores<BookOrganizerContext>()
-    .AddDefaultTokenProviders();
+builder.Services.AddAuthorization();
+builder.Services.AddControllersWithViews();
 
 builder.Services.AddHttpClient("BookOrganizerApi", client =>
 {
-    client.BaseAddress = new Uri("https://localhost:5001");
+    client.BaseAddress = new Uri("https://localhost:7039");
 });
+
+
 
 var app = builder.Build();
 
@@ -60,5 +70,6 @@ app.MapControllerRoute(
     .WithStaticAssets();
 
 RegisterUser.MapEndpoint(app);
+LoginUser.MapEndpoint(app);
 
 app.Run();
