@@ -47,8 +47,8 @@ namespace BookOrganizerTest
             var viewResult = Assert.IsType<ViewResult>(result);
             var model = Assert.IsAssignableFrom<BookGenreViewModel>(viewResult.Model);
 
-            Assert.Single(model.Books);
-            Assert.Equal("Livro de teste", model.Books.First().Title);
+            Assert.Single(model.Books!);
+            Assert.Equal("Livro de teste", model.Books!.First().Title);
         }
 
         [Theory]
@@ -58,7 +58,7 @@ namespace BookOrganizerTest
         [InlineData("/Account/Login")]
         [InlineData("/Account/Register")]
 
-        public async void TestPagesWithoutId(string URL)
+        public async Task TestPagesWithoutId(string URL)
         {
             var client = _factory.CreateClient();
             var response = await client.GetAsync(URL);
