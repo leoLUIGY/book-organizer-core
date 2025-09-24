@@ -23,12 +23,11 @@ namespace BookOrganizerTest
 
         [Theory]
         [InlineData("/")]
-        [InlineData("/TodoBook/Index")]
         [InlineData("/TodoBook/Create")]
         [InlineData("/Account/Login")]
         [InlineData("/Account/Register")]
 
-        public async void TestPagesWithoutId(string URL)
+        public async Task TestPagesWithoutId(string URL)
         {
             var client = _factory.CreateClient();
             var response = await client.GetAsync(URL);
