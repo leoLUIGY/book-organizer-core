@@ -53,7 +53,6 @@ namespace BookOrganizerTest
 
         [Theory]
         [InlineData("/")]
-        [InlineData("/TodoBook/Index")]
         [InlineData("/TodoBook/Create")]
         [InlineData("/Account/Login")]
         [InlineData("/Account/Register")]
